@@ -159,4 +159,7 @@ public class UserDTO extends BaseDTO {
 	public void setImageId(Long imageId) {
 		this.imageId = imageId;
 	}
+	public String getName() {
+		return firstName + " " + lastName;
+	}
 }
