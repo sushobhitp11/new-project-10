@@ -13,6 +13,8 @@ public interface BaseServiceInt<T extends BaseDTO> {
 	public T delete(long id, UserContext userContext);
 
 	public T findById(long id, UserContext userContext);
+	
+	public T findByUniqueKey(String att, String val, UserContext userContext);
 
 	public List search(T dto, int pageNo, int pageSize, UserContext userContext);
 

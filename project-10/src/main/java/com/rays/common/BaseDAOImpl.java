@@ -6,11 +6,15 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
 
 public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 
@@ -61,7 +65,7 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 		return dto;
 	}
 
-	public T findByUniqueKey(String attribute, Object val, UserContext userContext) {
+	public T findByUniqueKey(String att, Object val, UserContext userContext) {
 
 		Class<T> dtoClass = getDTOClass();
 
@@ -71,7 +75,7 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 
 		Root<T> qRoot = cq.from(dtoClass);
 
-		Predicate condition = builder.equal(qRoot.get(attribute), val);
+		Predicate condition = builder.equal(qRoot.get(att), val);
 
 		cq.where(condition);
 
@@ -122,6 +126,14 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 
 	public List search(T dto, UserContext userContext) {
 		return search(dto, 0, 0, userContext);
+	}
+	
+	public List marksheetMeritList(String hql, UserContext userContext) {
+		Query q = entityManager.createQuery(hql);
+		q.setFirstResult(0);
+		q.setMaxResults(10);
+		List l = q.getResultList();
+		return l;
 	}
 
 	protected boolean isEmptyString(String val) {

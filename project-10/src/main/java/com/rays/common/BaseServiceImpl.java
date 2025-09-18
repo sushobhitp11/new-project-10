@@ -2,12 +2,14 @@ package com.rays.common;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rays.exception.DatabaseException;
 import com.rays.exception.DuplicateRecordException;
+
 
 public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> implements BaseServiceInt<T> {
 
@@ -68,5 +70,11 @@ public class BaseServiceImpl<T extends BaseDTO, D extends BaseDAOInt<T>> impleme
 	@Transactional(readOnly = true)
 	public List<T> search(T dto, UserContext userContext) {
 		return baseDao.search(dto, userContext);
+	}
+
+	@Transactional(readOnly = true)
+	public T findByUniqueKey(String att, String val, UserContext userContext) {
+		T dto = baseDao.findByUniqueKey(att, val, userContext);
+		return dto;
 	}
 }
